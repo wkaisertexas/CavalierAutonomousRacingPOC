@@ -16,6 +16,8 @@ jobs:
           lfs: true
       - name: Change into project directory
         run: cd simulator
+      - name: List out current dir
+        run: ls -la
       # Cache
       - uses: actions/cache@v3
         with:
