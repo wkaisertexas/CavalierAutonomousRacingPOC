@@ -20,14 +20,9 @@ jobs:
       run:
         working-directory: ./simulator
     steps:
-      # Cache
-      - uses: actions/cache@v3
-        with:
-          path: Library
-          key: Library-${{ hashFiles('Assets/**', 'Packages/**', 'ProjectSettings/**') }}
-          restore-keys: |
-            Library-
       # Build
+      - name: List out files
+        run: ls -la
       - name: Build project
         uses: game-ci/unity-builder@v4 
         env:
