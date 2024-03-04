@@ -9,15 +9,13 @@ jobs:
     name: Build my project ✨
     runs-on: ubuntu-latest
     steps:
-      # Changing into the project directory
-      - name: Change into project directory
-        run: cd simulator
       # Checkout
       - name: Checkout repository
         uses: actions/checkout@v4
         with:
           lfs: true
-
+      - name: Change into project directory
+        run: cd simulator
       # Cache
       - uses: actions/cache@v3
         with:
