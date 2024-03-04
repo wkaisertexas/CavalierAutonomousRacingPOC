@@ -14,10 +14,14 @@ jobs:
         uses: actions/checkout@v4
         with:
           lfs: true
+      - name: List out current dir
+        run: ls -la
       - name: Change into project directory
         run: cd simulator
       - name: List out current dir
         run: ls -la
+      - name: Change into project directory
+        run: cd simulator
       # Cache
       - uses: actions/cache@v3
         with:
