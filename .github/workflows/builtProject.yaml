@@ -17,13 +17,14 @@ jobs:
         with:
           lfs: true
       # Build
-      - name: Navigate to Subdirectory and Build Project
+      - name: Listing the directory
+        run: ls -la
+      - name: Build Project
         uses: game-ci/unity-builder@v4 
         env:
             UNITY_LICENSE: ${{ secrets.UNITY_LICENSE }}
             UNITY_EMAIL: ${{ secrets.UNITY_EMAIL }}
             UNITY_PASSWORD: ${{ secrets.UNITY_PASSWORD }}
-            working-directory: simulator/
         with:
             targetPlatform: StandaloneLinux64
 
