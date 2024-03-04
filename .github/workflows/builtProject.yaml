@@ -20,9 +20,9 @@ jobs:
             UNITY_LICENSE: ${{ secrets.UNITY_LICENSE }}
             UNITY_EMAIL: ${{ secrets.UNITY_EMAIL }}
             UNITY_PASSWORD: ${{ secrets.UNITY_PASSWORD }}
+            working-directory: simulator/
         with:
             targetPlatform: StandaloneLinux64
-            working-directory: simulator/
 
       # Output
       - uses: actions/upload-artifact@v3
