@@ -24,6 +24,7 @@ jobs:
         run: cd simulator
       # Cache
       - uses: actions/cache@v3
+        working-directory: ./simulator
         with:
           path: Library
           key: Library-${{ hashFiles('Assets/**', 'Packages/**', 'ProjectSettings/**') }}
@@ -31,7 +32,8 @@ jobs:
             Library-
       # Build
       - name: Build project
-        uses: game-ci/unity-builder@v4
+        uses: game-ci/unity-builder@v4 
+        working-directory: ./simulator
         env:
           UNITY_LICENSE: ${{ secrets.UNITY_LICENSE }}
           UNITY_EMAIL: ${{ secrets.UNITY_EMAIL }}
@@ -41,6 +43,7 @@ jobs:
 
       # Output
       - uses: actions/upload-artifact@v3
+        working-directory: ./simulator
         with:
           name: Build
           path: build
