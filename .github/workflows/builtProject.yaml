@@ -1,36 +1,53 @@
-name: Build Unity project for Linux
+name: Building Project
 
-on:
-  push:
-    branches:
-      - main  # Adjust this to match your main branch name
-  pull_request:
-    branches:
-      - main  # Adjust this to match your main branch name
+# from: https://game.ci/docs/github/getting-started
+
+on: [push, pull_request]
 
 jobs:
   build:
+    name: Build my project ✨
     runs-on: ubuntu-latest
-
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v2
+      # Changing into the project directory
+      - name: Change into project directory
+        run: cd MyProject
+      # Checkout
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          lfs: true
 
-    - uses: game-ci/unity-builder@v4
-      env:
-        UNITY_LICENSE: ${{ secrets.UNITY_LICENSE }}
-        UNITY_EMAIL: ${{ secrets.UNITY_EMAIL }}
-        UNITY_PASSWORD: ${{ secrets.UNITY_PASSWORD }}
-      with:
-        targetPlatform: StandaloneLinux64
+      # Cache
+      - uses: actions/cache@v3
+        with:
+          path: Library
+          key: Library-${{ hashFiles('Assets/**', 'Packages/**', 'ProjectSettings/**') }}
+          restore-keys: |
+            Library-
 
-    - name: Build Unity project
-      run: |
-        mkdir Builds
-        unity-editor -quit -batchmode -projectPath . -buildLinux64Player "Builds/MyGameLinux"
+      # Test
+      - name: Run tests
+        uses: game-ci/unity-test-runner@v4
+        env:
+          UNITY_LICENSE: ${{ secrets.UNITY_LICENSE }}
+          UNITY_EMAIL: ${{ secrets.UNITY_EMAIL }}
+          UNITY_PASSWORD: ${{ secrets.UNITY_PASSWORD }}
+        with:
+          githubToken: ${{ secrets.GITHUB_TOKEN }}
 
-    - name: Upload build artifact
-      uses: actions/upload-artifact@v2
-      with:
-        name: Linux_Build
-        path: Builds/MyGameLinux
+      # Build
+      - name: Build project
+        uses: game-ci/unity-builder@v4
+        env:
+          UNITY_LICENSE: ${{ secrets.UNITY_LICENSE }}
+          UNITY_EMAIL: ${{ secrets.UNITY_EMAIL }}
+          UNITY_PASSWORD: ${{ secrets.UNITY_PASSWORD }}
+        with:
+          targetPlatform: WebGL
+
+      # Output
+      - uses: actions/upload-artifact@v3
+        with:
+          name: Build
+          path: build
