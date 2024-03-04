@@ -16,7 +16,6 @@ jobs:
       # Build
       - name: Navigate to Subdirectory and Build Project
         run: |
-          cd simulator
           - name: Build project
             uses: game-ci/unity-builder@v4 
             env:
