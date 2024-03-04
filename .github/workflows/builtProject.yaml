@@ -11,7 +11,7 @@ jobs:
     steps:
       # Changing into the project directory
       - name: Change into project directory
-        run: cd MyProject
+        run: cd simulator
       # Checkout
       - name: Checkout repository
         uses: actions/checkout@v4
