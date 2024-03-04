@@ -16,6 +16,7 @@ jobs:
       # Build
       - name: Navigate to Subdirectory and Build Project
         run: |
+          ls
           - name: Build project
             uses: game-ci/unity-builder@v4 
             env:
