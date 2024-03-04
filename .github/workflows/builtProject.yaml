@@ -20,11 +20,6 @@ jobs:
       run:
         working-directory: ./simulator
     steps:
-      # Checkout
-      - name: Checkout repository
-        uses: actions/checkout@v4
-        with:
-          lfs: true
       # Cache
       - uses: actions/cache@v3
         with:
