@@ -5,26 +5,28 @@ name: Building Project
 on: [push, pull_request]
 
 jobs:
+  clone: 
+    name: Clone the repository
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          lfs: true
   build:
     name: Build my project ✨
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./simulator
     steps:
       # Checkout
       - name: Checkout repository
         uses: actions/checkout@v4
         with:
           lfs: true
-      - name: List out current dir
-        run: ls -la
-      - name: Change into project directory
-        run: cd simulator
-      - name: List out current dir
-        run: ls -la
-      - name: Change into project directory
-        run: cd simulator
       # Cache
       - uses: actions/cache@v3
-        working-directory: ./simulator
         with:
           path: Library
           key: Library-${{ hashFiles('Assets/**', 'Packages/**', 'ProjectSettings/**') }}
@@ -33,7 +35,6 @@ jobs:
       # Build
       - name: Build project
         uses: game-ci/unity-builder@v4 
-        working-directory: ./simulator
         env:
           UNITY_LICENSE: ${{ secrets.UNITY_LICENSE }}
           UNITY_EMAIL: ${{ secrets.UNITY_EMAIL }}
@@ -43,7 +44,6 @@ jobs:
 
       # Output
       - uses: actions/upload-artifact@v3
-        working-directory: ./simulator
         with:
           name: Build
           path: build
